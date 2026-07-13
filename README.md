@@ -90,14 +90,14 @@ Output HTML charts are saved to `output/` and open automatically in your browser
 
 **Top Comps:** Vernon Davis (2006, dist: 0.5) · Noah Fant (2019, dist: 1.9) · Theo Johnson (2024, dist: 3.0)
 
-### Armand Membou (OL, 2025)
+### Armand Membou (OT, 2025)
 | Metric | Percentile |
 |--------|-----------|
-| Explosive | 96.7th |
+| Explosive | 96.8th |
 | Speed | 100th |
 | Dynamic Speed | — |
 
-**Top Comps:** David Moore (2021, dist: 1.1) · Sadarius Hutcherson (2021, dist: 1.7) · Quinn Meinerz (2021, dist: 2.7)
+**Top Comps:** Rashwan Slater (2021, dist: 2.8) · Brady Christensen (2021, dist: 3.1) · Zach Tom (2022, dist: 3.1)
 
 ---
 
