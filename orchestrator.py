@@ -34,7 +34,8 @@ PROCESS_SCRIPT = DATA_DIR / "process_data.py"
 POSITION_MAP = {
     "DT": "DT", "NT": "DT", "DL": "DT", "IDL": "DT",
     "ED": "EDGE", "OLB": "EDGE", "EDGE": "EDGE",
-    "OG": "OL", "OC": "OL", "IOL": "OL", "OT": "OL", "OL": "OL",
+    "OG": "IOL", "OC": "IOL", "IOL": "IOL",
+    "OT": "OT", "OL": "OL",
     "CB": "CB", "BC": "CB", "DC": "CB",
     "S": "S", "DB": "S", "DS": "S", "SS": "S", "FS": "S",
     "LB": "LB", "ILB": "LB",
@@ -279,10 +280,24 @@ def query_interface_agent(data: dict, output_filename: str = None) -> str:
     title = f"{player['player_name']} ({player['canonical_position']}, {player['year']}) vs. closest comps"
 
     # Text summary for comps
-    comp_rows_html = ""
+       # Text summary for comps
+    def fmt(v):
+        return f"{v:.1f}" if v is not None else "—"
+
+    comp_rows_html = f"""
+        <tr style="background: rgba(27, 42, 74, 0.4);">
+          <td class="rank">—</td>
+          <td class="name" style="color: #7DD3FC;">{player["player_name"]} (Queried)</td>
+          <td>{player["year"]}</td>
+          <td>{player.get("school", "")}</td>
+          <td>{fmt(player["explosive_percentile"])}</td>
+          <td>{fmt(player["speed_percentile"])}</td>
+          <td>{fmt(player["dynamic_speed_percentile"])}</td>
+          <td class="dist">—</td>
+          <td></td>
+        </tr>"""
+
     for comp in comps:
-        def fmt(v):
-            return f"{v:.1f}" if v is not None else "—"
         note_html = f'<span class="warning">{comp["note"]}</span>' if comp["note"] else ""
         comp_rows_html += f"""
         <tr>
