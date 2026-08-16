@@ -143,7 +143,9 @@ Raw position values are inconsistent across combine years (e.g., `NT`, `DT`, and
 |-----------|-------------|
 | DT | DT, NT, DL, IDL |
 | EDGE | ED, OLB |
-| OL | OG, OC, IOL, OT |
+| OT | OT |
+| IOL | OG, OC, IOL |
+| OL | OL (generic) |
 | CB | CB, BC, DC |
 | S | S, DB, DS, SS, FS |
 | LB | LB, ILB |
