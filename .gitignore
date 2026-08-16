@@ -21,7 +21,6 @@ ENV/
 .AppleDouble
 .LSOverride
 
-# Generated data (recomputed by process_data.py — too large to track)
 data/players_with_percentiles.csv
 
 # Output charts (generated — not source)
