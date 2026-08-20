@@ -56,21 +56,22 @@ def get_comps(df: pd.DataFrame, player_row: pd.Series) -> pd.DataFrame:
     """
     position = player_row["canonical_position"]
 
-    if player_row[METRICS].isna().any():
-        return pd.DataFrame()  # can't comp a player missing a metric, per methodology skill
+    if player_row[["explosive_percentile", "speed_percentile"]].isna().any():
+        return pd.DataFrame()  # require at least explosive and speed
 
     pool = df[
         (df["canonical_position"] == position)
         & (df["player_id"] != player_row["player_id"])
         & (pd.to_numeric(df["year"], errors='coerce').fillna(0) < int(player_row.get("year", 0) or 0))
-    ].dropna(subset=METRICS)
+    ].dropna(subset=["explosive_percentile", "speed_percentile"])
 
     if pool.empty:
         return pool
 
+    import numpy as np
     diffs = pool[METRICS].to_numpy() - player_row[METRICS].to_numpy(dtype=float)
     pool = pool.copy()
-    pool["distance"] = (diffs ** 2).sum(axis=1) ** 0.5
+    pool["distance"] = np.nansum(diffs ** 2, axis=1) ** 0.5
 
     return pool.sort_values("distance").head(MAX_COMPS)
 
@@ -152,13 +153,16 @@ def main():
     else:
         player_row = candidates.iloc[0]
 
-    if player_row[METRICS].isna().any():
-        missing = [METRIC_LABELS[m] for m in METRICS if pd.isna(player_row[m])]
+    if player_row[["explosive_percentile", "speed_percentile"]].isna().any():
+        missing = [METRIC_LABELS[m] for m in ["explosive_percentile", "speed_percentile"] if pd.isna(player_row[m])]
         st.warning(
             f"{player_row['player_name']} is missing: {', '.join(missing)}. "
-            "Comps require all three metrics, so none can be shown."
+            "Comps require at least Explosive and Speed metrics."
         )
         st.stop()
+        
+    if pd.isna(player_row["dynamic_speed_percentile"]):
+        st.info("Note: Player is missing Dynamic Speed. Comps will be matched on Explosive and Speed only.")
 
     comps = get_comps(df, player_row)
     if comps.empty:
